@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Audio</title>
+    </head>
+    <body>
+        
+        <script>
+            function play(){
+                var audio = document.getElementById("audio");
+                audio.play();
+                
+                var img = document.getElementById("img");
+                img.src = "WP_20170308_001_2.jpg";
+            }
+        </script>
+        
+        <img id="img" src="WP_20170308_001.jpg" onclick="play()"><img>
+            
+            <audio id="audio" src="test.mp3" ></audio>
+            </body>
+</html>
