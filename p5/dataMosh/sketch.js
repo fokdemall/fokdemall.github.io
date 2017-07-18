@@ -200,7 +200,7 @@ function sortColumn() {
     //color[] unsorted = new color[sortLength];
     //color[] sorted = new color[sortLength];
 
-    var unsorted = new p5.Color([sortLength]) ; //[sortLength];// = new var[sortLength];
+    var unsorted = new p5.Table([sortLength]) ; //[sortLength];// = new var[sortLength];
     var sorted = new p5.Table([sortLength]) ;
 
     
