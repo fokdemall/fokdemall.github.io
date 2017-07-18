@@ -12,5 +12,6 @@ function setup() {
 function draw() {
   background(0);
   image(camera, 0,0,640,480); 
+  filter('INVERT');
 
 }
