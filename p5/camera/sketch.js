@@ -14,6 +14,7 @@ function draw() {
   rotateY(radians(180));
   //box();
   plane(800);
+  //filter(INVERT);
   texture(camera, 0,0,800*2,600*2);
 
 }
