@@ -209,7 +209,7 @@ function sortColumn() {
     }
     
     //sorted = sort(unsorted);
-    sorted = unsorted.sort(0);
+    sorted = sort(unsorted.array());
     
     for(var i=0; i<sortLength; i++) {
       img.pixels[x + (y+i) * img.width] = sorted[i];
