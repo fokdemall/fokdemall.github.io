@@ -73,7 +73,7 @@ void draw() {
   
   // load updated image onto surface and scale to fit the display width,height
   image(img, 0, 0, width, height);
-  
+  /*
   if(!saved && frameCount >= loops) {
     
 	// save img
@@ -85,6 +85,7 @@ void draw() {
     // exiting here can interrupt file save, wait for user to trigger exit
     println("Click or press any key to exit...");
   }
+  */
 }
 
 void keyPressed() {
