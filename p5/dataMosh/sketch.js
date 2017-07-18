@@ -333,7 +333,7 @@ function getNextDarkY( x, y) {
   y++;
 
   if(y < img.height) {
-  	//img.loadPixels();
+  	img.loadPixels();
     while(brightness(img.pixels[x + y * img.width]) > brightnessValue) {
       y++;
       if(y >= img.height)
