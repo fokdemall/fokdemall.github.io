@@ -41,7 +41,7 @@ createCanvas(800,600);
 
 
   //img = loadImage(imgFileName+"."+fileType);
-  img = loadImage("testDataMosh.jpg");
+  img = loadImage("https://github.com/fokdemall/fokdemall.github.io/blob/master/p5/dataMosh/testDataMosh.jpg");
   
   // use only numbers (not variables) for the size() command, Processing 3
   //size(1, 1);
@@ -209,7 +209,7 @@ function sortColumn() {
     }
     
     //sorted = sort(unsorted);
-    sorted = sort(unsorted.array());
+    sorted = sort(unsorted.array()); 
     
     for(var i=0; i<sortLength; i++) {
       img.pixels[x + (y+i) * img.width] = sorted[i];
