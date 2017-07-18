@@ -318,8 +318,8 @@ function getNextBlackY( x, y) {
 function getFirstBrightY( x, y) {
 
   if(y < img.height) {
-  	img.loadPixels();
-    while(brightness(img.pixels[x + y * img.width]) < brightnessValue) {
+  	//img.loadPixels();
+    while(brightness(color(img.pixels[x + y * img.width])) < brightnessValue) {
       y++;
       if(y >= img.height)
         return -1;
@@ -334,7 +334,7 @@ function getNextDarkY( x, y) {
 
   if(y < img.height) {
   	img.loadPixels();
-    while(brightness(img.pixels[x + y * img.width]) > brightnessValue) {
+    while(brightness(color(img.pixels[x + y * img.width])) > brightnessValue) {
       y++;
       if(y >= img.height)
         return img.height-1;
