@@ -12,46 +12,54 @@
  
  */
 
-int mode = 1;
+var mode = 1;
 
 // image path is relative to sketch directory
-PImage img;
-String imgFileName = "testDataMosh";
-String fileType = "jpg";
+var img;
+var imgFileName = "testDataMosh";
+var fileType = "jpg";
 
-int loops = 1;
+var loops = 1;
 
 // threshold values to determine sorting start and end pixels
-int blackValue = -16000000;
-int brightnessValue = 60;
-int whiteValue = -13000000;
+var blackValue = -16000000;
+var brightnessValue = 60;
+var whiteValue = -13000000;
 
-int row = 0;
-int column = 0;
+var row = 0;
+var column = 0;
 
-boolean saved = false;
+var saved = false;
 
-void setup() {
-  img = loadImage(imgFileName+"."+fileType);
+function setup() {
+
+background(0);
+createCanvas(800,600);
+
+
+  //img = loadImage(imgFileName+"."+fileType);
+  img = loadImage("testDataMosh.jpg");
   
   // use only numbers (not variables) for the size() command, Processing 3
-  size(1, 1);
+  //size(1, 1);
   
   // allow resize and update surface to image dimensions
-  surface.setResizable(true);
-  surface.setSize(img.width, img.height);
+  //surface.setResizable(true);
+  //surface.setSize(img.width, img.height);
   
   // load image onto surface - scale to the available width,height for display
   image(img, 0, 0, width, height);
   
+  /*
   println("img.pixels[10]" + img.pixels[10]);
   println("img.pixels[10]" + img.pixels[100]);
   println("img.pixels[10]" + img.pixels[1000]);
   println("img.pixels[10]" + img.pixels[10000]);
+  */
 }
 
 
-void draw() {
+function draw() {
   
   // loop through columns
   while(column < img.width-1) {
@@ -88,29 +96,31 @@ void draw() {
   */
 }
 
-void keyPressed() {
+/*
+function keyPressed() {
   if(saved)
   {
     System.exit(0);
   }
 }
 
-void mouseClicked() {
+function mouseClicked() {
   if(saved)
   {
     System.exit(0);
   }
 }
+*/
 
-void sortRow() {
+function sortRow() {
   // current row
-  int y = row;
+  var y = row;
   
   // where to start sorting
-  int x = 0;
+  var x = 0;
   
   // where to stop sorting
-  int xend = 0;
+  var xend = 0;
   
   while(xend < img.width-1) {
     switch(mode) {
@@ -132,18 +142,18 @@ void sortRow() {
     
     if(x < 0) break;
     
-    int sortLength = xend-x;
+    var sortLength = xend-x;
     
-    color[] unsorted = new color[sortLength];
-    color[] sorted = new color[sortLength];
+    var unsorted = new p5.Table([sortLength]) ; //[sortLength];// = new var[sortLength];
+    var sorted = new p5.Table([sortLength]) ;
     
-    for(int i=0; i<sortLength; i++) {
+    for(var i=0; i<sortLength; i++) {
       unsorted[i] = img.pixels[x + i + y * img.width];
     }
     
     sorted = sort(unsorted);
     
-    for(int i=0; i<sortLength; i++) {
+    for(var i=0; i<sortLength; i++) {
       img.pixels[x + i + y * img.width] = sorted[i];      
     }
     
@@ -152,15 +162,15 @@ void sortRow() {
 }
 
 
-void sortColumn() {
+function sortColumn() {
   // current column
-  int x = column;
+  var x = column;
   
   // where to start sorting
-  int y = 0;
+  var y = 0;
   
   // where to stop sorting
-  int yend = 0;
+  var yend = 0;
   
   while(yend < img.height-1) {
     switch(mode) {
@@ -182,18 +192,22 @@ void sortColumn() {
     
     if(y < 0) break;
     
-    int sortLength = yend-y;
+    var sortLength = yend-y;
     
-    color[] unsorted = new color[sortLength];
-    color[] sorted = new color[sortLength];
+    //color[] unsorted = new color[sortLength];
+    //color[] sorted = new color[sortLength];
+
+    var unsorted = new p5.Table([sortLength]) ; //[sortLength];// = new var[sortLength];
+    var sorted = new p5.Table([sortLength]) ;
+
     
-    for(int i=0; i<sortLength; i++) {
+    for(var i=0; i<sortLength; i++) {
       unsorted[i] = img.pixels[x + (y+i) * img.width];
     }
     
     sorted = sort(unsorted);
     
-    for(int i=0; i<sortLength; i++) {
+    for(var i=0; i<sortLength; i++) {
       img.pixels[x + (y+i) * img.width] = sorted[i];
     }
     
@@ -203,7 +217,7 @@ void sortColumn() {
 
 
 // black x
-int getFirstNotBlackX(int x, int y) {
+function getFirstNotBlackX( x,  y) {
   
   while(img.pixels[x + y * img.width] < blackValue) {
     x++;
@@ -214,7 +228,7 @@ int getFirstNotBlackX(int x, int y) {
   return x;
 }
 
-int getNextBlackX(int x, int y) {
+function getNextBlackX( x, y) {
   x++;
   
   while(img.pixels[x + y * img.width] > blackValue) {
@@ -227,7 +241,7 @@ int getNextBlackX(int x, int y) {
 }
 
 // brightness x
-int getFirstBrightX(int x, int y) {
+function getFirstBrightX( x, y) {
   
   while(brightness(img.pixels[x + y * img.width]) < brightnessValue) {
     x++;
@@ -238,9 +252,9 @@ int getFirstBrightX(int x, int y) {
   return x;
 }
 
-int getNextDarkX(int _x, int _y) {
-  int x = _x+1;
-  int y = _y;
+function getNextDarkX( _x, _y) {
+  var x = _x+1;
+  var y = _y;
   
   while(brightness(img.pixels[x + y * img.width]) > brightnessValue) {
     x++;
@@ -250,7 +264,7 @@ int getNextDarkX(int _x, int _y) {
 }
 
 // white x
-int getFirstNotWhiteX(int x, int y) {
+function getFirstNotWhiteX( x, y) {
 
   while(img.pixels[x + y * img.width] > whiteValue) {
     x++;
@@ -260,7 +274,7 @@ int getFirstNotWhiteX(int x, int y) {
   return x;
 }
 
-int getNextWhiteX(int x, int y) {
+function getNextWhiteX( x, y) {
   x++;
 
   while(img.pixels[x + y * img.width] < whiteValue) {
@@ -273,7 +287,7 @@ int getNextWhiteX(int x, int y) {
 
 
 // black y
-int getFirstNotBlackY(int x, int y) {
+function getFirstNotBlackY( x, y) {
 
   if(y < img.height) {
     while(img.pixels[x + y * img.width] < blackValue) {
@@ -286,7 +300,7 @@ int getFirstNotBlackY(int x, int y) {
   return y;
 }
 
-int getNextBlackY(int x, int y) {
+function getNextBlackY( x, y) {
   y++;
 
   if(y < img.height) {
@@ -301,7 +315,7 @@ int getNextBlackY(int x, int y) {
 }
 
 // brightness y
-int getFirstBrightY(int x, int y) {
+function getFirstBrightY( x, y) {
 
   if(y < img.height) {
     while(brightness(img.pixels[x + y * img.width]) < brightnessValue) {
@@ -314,7 +328,7 @@ int getFirstBrightY(int x, int y) {
   return y;
 }
 
-int getNextDarkY(int x, int y) {
+function getNextDarkY( x, y) {
   y++;
 
   if(y < img.height) {
@@ -328,7 +342,7 @@ int getNextDarkY(int x, int y) {
 }
 
 // white y
-int getFirstNotWhiteY(int x, int y) {
+function getFirstNotWhiteY( x, y) {
 
   if(y < img.height) {
     while(img.pixels[x + y * img.width] > whiteValue) {
@@ -341,7 +355,7 @@ int getFirstNotWhiteY(int x, int y) {
   return y;
 }
 
-int getNextWhiteY(int x, int y) {
+function getNextWhiteY( x, y) {
   y++;
   
   if(y < img.height) {
