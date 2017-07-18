@@ -208,7 +208,8 @@ function sortColumn() {
       unsorted[i] = img.pixels[x + (y+i) * img.width];
     }
     
-    sorted = sort(unsorted, 640);
+    //sorted = sort(unsorted);
+    sorted = unsorted.sort(0);
     
     for(var i=0; i<sortLength; i++) {
       img.pixels[x + (y+i) * img.width] = sorted[i];
