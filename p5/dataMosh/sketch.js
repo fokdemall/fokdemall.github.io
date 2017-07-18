@@ -33,6 +33,9 @@ var saved = false;
 
 function setup() {
 
+colorMode(RGB, 255);
+
+
 background(0);
 createCanvas(800,600);
 
