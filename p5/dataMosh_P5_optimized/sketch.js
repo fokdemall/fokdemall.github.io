@@ -35,8 +35,21 @@ var live = 1;
 var captured = 0;
 var final;
 
-var xStartGlitch = 200;
-var xStopGlitch = 600;
+var xStartGlitch;// = 200;
+var xStopGlitch;// = 400;
+var yStartGlitch;// = 300;
+
+//Face Detection stuffs
+var entireImage = 0;
+
+var detector;
+var classifier = objectdetect.frontalface;
+var faces;
+
+var saved = 0;
+
+//TO BE SET AT THE RIGHT PLACE ...
+
 
 ///////////////////////////////////////////////////////////////////////
 function setup() {
@@ -49,12 +62,27 @@ function setup() {
 
     //select('#motion').elt.innerText = "entering setup()";
     background(0);
-    createCanvas(800,1000);
+    createCanvas(w,h);
 
     img = new p5.Image(w,h);
     originalPic = new p5.Image(w,h);
 
     console.log("end setup ");
+
+
+    //HERE WE CHOOSE A START VALUE FOR X. Remove to glitch from x=0.//
+    if(entireImage == 1)
+        xStopGlitch = img.width-1;
+
+
+    //Face Detection stuffs
+    var scaleFactor = 2.0;
+    detector = new objectdetect.detector(w, h, scaleFactor, classifier);
+    
+    //select("#takePhoto").hide();
+    select("#save").hide();
+    select("#restart").hide();
+
 }
 
 
@@ -62,28 +90,43 @@ function setup() {
 function draw() {
 
 
-    if(live == 0)
+    if(live == 0 && captured == 1)
     {
-        if(captured == 0)
-        {
-            img.copy(capture,0,0,w,h,0,0,w,h);
-            originalPic.copy(capture,0,0,w,h,0,0,w,h);
-            //img.updatePixels();
-            img.loadPixels();
-            captured=1;
-        }
         // loop through columns
-        while(column < (img.width-1)) {
+        while(column < /*(img.width-1)*/ xStopGlitch) {
             img.loadPixels(); 
             sortColumn();
             column++;
             img.updatePixels();
         }
 
-        console.log("########## fin du while #########");
+        //console.log("########## fin du while #########");
 
         image(img, 0, 0, w, h);
-        image(originalPic, 0, h+20, w, h);
+        //image(originalPic, 0, h+20, w, h);
+
+        /*
+        if(saved == 0)
+            {
+                saveCanvas(img.canvas, "Blindsp0t_GlitySelfie", "png");
+                saved=1;
+            }
+            */
+        //Draw Detected Faces
+        /*
+        stroke(255);
+        noFill();
+        if (faces) {
+            faces.forEach(function (face) {
+                var count = face[4];
+                if (count > 5) { // try different thresholds
+                    rect(face[0], face[1], face[2], face[3]);
+                }
+            })
+        }
+        ellipse(xStartGlitch, yStartGlitch,10);
+        ellipse(xStopGlitch, img.height,10);
+*/
     }
 
 
@@ -96,9 +139,92 @@ function draw() {
 }
 
 
+function x() {
+    window.open(canvas.toDataURL('image/png'));
+    var gh = canvas.toDataURL('png');
+
+    var a  = document.createElement('a');
+    a.href = gh;
+    a.download = 'Blindsp0t_GlitySelfie.png';
+
+    a.click()
+}
+
 function clickTakePhoto()
 {
     live = 0;
+
+    if(captured == 0)
+    {
+        img.copy(capture,0,0,w,h,0,0,w,h);
+        originalPic.copy(capture,0,0,w,h,0,0,w,h);
+        //img.updatePixels();
+        img.loadPixels();
+
+        //    xStartGlitch = 100;
+        //    xStopGlitch = 540;
+        //    yStartGlitch = 100;
+
+        faces = detector.detect(img.canvas);    
+        console.log(faces.length);
+        
+        if (faces && entireImage == 0) {
+        var nbFaces = 0;
+            faces.forEach(function (face) {
+                //console.log("count : " + count);
+                var count = face[4];
+                if (count > 3) { // try different thresholds
+                    //rect(face[0], face[1], face[2], face[3]);
+                    nbFaces++;
+                    
+                    xStartGlitch = face[0];
+                    xStopGlitch = face[0]+face[2];
+                    yStartGlitch = face[1];
+                }
+            })
+        }
+        if(nbFaces > 0)
+        {
+            console.log("face found")    ;
+        }
+        else
+            {
+                alert("no face found, please try again...");
+                location.reload();
+            }
+
+
+        captured=1;
+
+
+        if(entireImage == 0)
+        {
+            column = xStartGlitch;
+        }
+    }
+
+    select("#takePhoto").hide();
+    select("#save").show();
+    select("#restart").show();
+
+/*
+    console.log("xStartGlitch : " + xStartGlitch);
+    console.log("xStopGlitch : " + xStopGlitch);
+    console.log("yStartGlitch : " + yStartGlitch);
+*/
+
+    
+}
+
+function save2() {
+    window.open(canvas.toDataURL('image/png'));
+    var gh = canvas.toDataURL('png');
+
+    var a  = document.createElement('a');
+    a.href = gh;
+    a.download = 'image.png';
+
+    a.click()
 }
 
 
@@ -107,7 +233,17 @@ function sortColumn() {
 
     var x = column;
 
-    var y = 0;
+
+    var y;
+    if(entireImage == 0)
+    {
+        y = yStartGlitch;
+    }
+    else
+    {
+        y = 0;
+    }
+
     var yend = 0;
 
     loopNB++;

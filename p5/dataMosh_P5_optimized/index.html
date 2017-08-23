@@ -7,6 +7,8 @@
     <script src="../libs/p5/p5.js"></script>
     <script src="../libs/p5/addons/p5.dom.js"></script>
     <script src="../shared/utils.js"></script>
+    <script src="../libs/objdetect/objectdetect.js"></script>
+    <script src="../libs/objdetect/objectdetect.frontalface.js"></script>
     <style>
         * {
             font-family: sans-serif;
@@ -16,7 +18,9 @@
     
   <body>
     <h2>P5.js DataMoshing / PixelSort.</h2>
-      <p><button onclick="clickTakePhoto()">take photo</button></p>
+      <p><button id="takePhoto" onclick="clickTakePhoto()">take photo</button></p>
+      <p><button id="save" onclick="save2()">save</button></p>
+      <p><button id="restart" onclick="location.reload();">take another photo</button></p>
       
     <script src="sketch.js"></script>
   </body>
