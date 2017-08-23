@@ -227,10 +227,10 @@ function save2() {
 
     a.click()
     */
-    /*var canvas = document.getElementById("my-canvas"),*/ var ctx = canvas.getContext("2d");
+    /*var canvas = document.getElementById("my-canvas"),*/ var  ctx = canvas.getContext("2d");
 // draw to canvas...
 canvas.toBlob(function(blob) {
-    saveAs(blob, "pretty image.png");
+    saveAs(blob, "yourGlitchSelfie.png");
 });
 }
 
