@@ -217,6 +217,7 @@ function clickTakePhoto()
 }
 
 function save2() {
+    /*
     window.open(canvas.toDataURL('image/png'));
     var gh = canvas.toDataURL('png');
 
@@ -225,6 +226,12 @@ function save2() {
     a.download = 'image.png';
 
     a.click()
+    */
+    /*var canvas = document.getElementById("my-canvas"),*/ var ctx = canvas.getContext("2d");
+// draw to canvas...
+canvas.toBlob(function(blob) {
+    saveAs(blob, "pretty image.png");
+});
 }
 
 
