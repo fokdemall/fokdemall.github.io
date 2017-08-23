@@ -78,7 +78,7 @@ function setup() {
     //Face Detection stuffs
     var scaleFactor = 2.0;
     detector = new objectdetect.detector(w, h, scaleFactor, classifier);
-    
+
     //select("#takePhoto").hide();
     select("#save").hide();
     select("#restart").hide();
@@ -134,6 +134,21 @@ function draw() {
     {
         capture.loadPixels();
         image(capture, 0, 0, w, h);
+        /*
+        //Draw Detected Faces
+        //img.loadPixels(); 
+        faces = detector.detect(capture.canvas);    
+
+        stroke(255);
+        noFill();
+        if (faces) {
+            faces.forEach(function (face) {
+                var count = face[4];
+                if (count > 5) { // try different thresholds
+                    rect(face[0], face[1], face[2], face[3]);
+                }
+            })
+        }*/
     }
 
 }
@@ -167,16 +182,16 @@ function clickTakePhoto()
 
         faces = detector.detect(img.canvas);    
         console.log(faces.length);
-        
+
         if (faces && entireImage == 0) {
-        var nbFaces = 0;
+            var nbFaces = 0;
             faces.forEach(function (face) {
                 //console.log("count : " + count);
                 var count = face[4];
                 if (count > 3) { // try different thresholds
                     //rect(face[0], face[1], face[2], face[3]);
                     nbFaces++;
-                    
+
                     xStartGlitch = face[0];
                     xStopGlitch = face[0]+face[2];
                     yStartGlitch = face[1];
@@ -188,10 +203,11 @@ function clickTakePhoto()
             console.log("face found")    ;
         }
         else
-            {
-                alert("no face found, please try again...");
-                location.reload();
-            }
+        {
+            //alert("no face found, please try again...");
+            select('#motion').elt.innerText = "no face found, please try again : ";
+            //location.reload();
+        }
 
 
         captured=1;
@@ -207,13 +223,13 @@ function clickTakePhoto()
     select("#save").show();
     select("#restart").show();
 
-/*
+    /*
     console.log("xStartGlitch : " + xStartGlitch);
     console.log("xStopGlitch : " + xStopGlitch);
     console.log("yStartGlitch : " + yStartGlitch);
 */
 
-    
+
 }
 
 function save2() {
@@ -228,10 +244,10 @@ function save2() {
     a.click()
     */
     /*var canvas = document.getElementById("my-canvas"),*/ var  ctx = canvas.getContext("2d");
-// draw to canvas...
-canvas.toBlob(function(blob) {
-    saveAs(blob, "yourGlitchSelfie.png");
-});
+    // draw to canvas...
+    canvas.toBlob(function(blob) {
+        saveAs(blob, "yourGlitchSelfie.png");
+    });
 }
 
 
