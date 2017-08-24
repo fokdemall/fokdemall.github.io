@@ -79,7 +79,7 @@ function setup() {
     detector = new objectdetect.detector(w, h, scaleFactor, classifier);
 
     //select("#takePhoto").hide();
-    select("#save").hide();
+    select("#saveImg").hide();
     select("#restart").hide();
 
 }
@@ -204,8 +204,11 @@ function clickTakePhoto()
         else
         {
             //alert("no face found, please try again...");
-            select('#motion').elt.innerText = "no face found, please try again : ";
-            //location.reload();
+            select('#motion').elt.innerText = "no face found, glitched entire image ";
+            entireImage = 1;
+            xStartGlitch = 0;
+            xStopGlitch = w;
+            yStartGlitch = 0;
         }
 
 
@@ -219,7 +222,7 @@ function clickTakePhoto()
     }
 
     select("#takePhoto").hide();
-    select("#save").show();
+    select("#saveImg").show();
     select("#restart").show();
 
     /*
