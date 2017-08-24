@@ -48,7 +48,6 @@ var faces;
 
 var saved = 0;
 
-//TO BE SET AT THE RIGHT PLACE ...
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -188,7 +187,7 @@ function clickTakePhoto()
             faces.forEach(function (face) {
                 //console.log("count : " + count);
                 var count = face[4];
-                if (count > 3) { // try different thresholds
+                if (count > 2) { // try different thresholds
                     //rect(face[0], face[1], face[2], face[3]);
                     nbFaces++;
 
